@@ -6,7 +6,50 @@ sources:
     tables:
       - name: sales
         identifier: raw_gz_sales
+        description: greenwith sales details table
+        loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+        freshness :
+          warn_after: {count : 90, period : day}
+        tests:
+          - unique :
+              column_name : "(orders_id || '_' || pdt_id)"
+        columns:
+          - name: date_date
+            description: Date of orders
+          - name: orders_id||
+            description: unique id of orders 
+          - name: pdt_id
+            description: id unique of products
+          - name: revenue
+            description: turnover of orders
+          - name: qty
+            description: quantity of products saled 
       - name: product
         identifier: raw_gz_product
+        description: greenwith product details table
+        columns:
+          - name: products_id
+            description: id of products
+            tests:
+              - unique
+              - not_null
+          - name: purchSE_PRICE
+            description: cost of the product
       - name: ship
         identifier: raw_gz_ship
+        description: greenwith shipping revenues and cost details table
+        columns:
+          - name: orders_id
+            description: unique id of orders
+            tests:
+            - unique
+            - not_null
+          - name: shipping_fee
+            description: fee invoiced to the client
+          - name: shipping_fee_1
+            description: same column as shipping_fee
+          - name: log_cost
+            description: logistic costs for the order
+          - name: ship_cost
+            description: shipping cost of the order
+
