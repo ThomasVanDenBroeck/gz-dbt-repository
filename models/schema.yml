@@ -52,4 +52,24 @@ sources:
             description: logistic costs for the order
           - name: ship_cost
             description: shipping cost of the order
+models:
+    - name: nt_sales_margin
+      description: niew to calculate the margin from sales ans product tables
+      tests:
+        - unique:
+            column_name : "(orders_id || '_' || products_id)"
+        - not_null:
+            column_name : "(orders_id || '_' || products_id)"
+      columns:
+        - name: purchase_cost
+          description: purchase_price * qty
+        - name: margin
+          description: revenue - purchase_cost
+    - name: int_orders_operationnal
+      description: view joined of sales margin and ship to calculate our operationnal margin
+      columns:
+        - name: operationnal_margin
+          description: margin - log and ship cost + shipping fee
+
+        
 
